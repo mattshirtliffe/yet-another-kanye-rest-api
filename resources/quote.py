@@ -3,11 +3,14 @@ from flask import Flask, request
 from flask_restful import Resource
 from models.quote import Quote
 from flask_jwt import jwt_required, current_identity
+import random
 
 
 class QuoteResource(Resource):
 
     def get(self, id):
+        if id == 'random':
+            return random.choice([quote.json() for quote in Quote.query.all()])
         return Quote.find_by_id(id).json()
 
 class QuoteListResource(Resource):
